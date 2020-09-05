@@ -1,0 +1,8 @@
+node_modules 
+.env
+bin
+obj
+.vscode
+appsettings.Development.json
+appsettings.json
+authConfig.js
