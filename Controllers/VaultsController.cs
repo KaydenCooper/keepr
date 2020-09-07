@@ -16,9 +16,11 @@ namespace Keepr.Controllers
     public class VaultsController : ControllerBase
     {
         private readonly VaultsService _vs;
-        public VaultsController(VaultsService vs)
+        private readonly VaultKeepsService _vk;
+        public VaultsController(VaultsService vs, VaultKeepsService vk)
         {
             _vs = vs;
+            _vk = vk;
         }
         [HttpGet]
         public ActionResult<IEnumerable<Vault>> Get()
@@ -34,10 +36,16 @@ namespace Keepr.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public ActionResult<Vault> GetById(int id)
         {
             try
             {
+                var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (user == null)
+                {
+                    throw new Exception("Please Login to Continue!");
+                }
                 return Ok(_vs.GetById(id));
             }
             catch (Exception e)
@@ -61,6 +69,26 @@ namespace Keepr.Controllers
             }
             catch (Exception e)
             {
+                return BadRequest(e.Message);
+            };
+        }
+
+        [HttpGet("{vaultId}" + "/keeps")]
+        public ActionResult<IEnumerable<VaultKeepViewModel>> GetKeepsByVaultId(int vaultId, string userId)
+        {
+            try
+            {
+                Claim user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                string getUser = user.Value;
+                if (user == null)
+                {
+                    throw new Exception("Please Login to Continue!");
+                }
+                return Ok(_vk.GetKeepsByVaultId(vaultId, getUser));
+            }
+            catch (System.Exception e)
+            {
+
                 return BadRequest(e.Message);
             };
         }
