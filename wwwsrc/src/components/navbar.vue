@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-1">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg py-1">
     <router-link class="navbar-brand" :to="{ name: 'home' }">Keepr</router-link>
     <button
       class="navbar-toggler"
@@ -57,4 +57,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.shadow-lg {
+  box-shadow: 0 0.75rem 1rem rgba(0, 0, 0, 0.616) !important;
+}
+</style>

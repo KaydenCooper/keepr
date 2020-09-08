@@ -1,25 +1,26 @@
 <template>
-  <div class="card myKeepsComponent col-12 col-md-2 m-3 px-0 shadow-lg text-center">
-    <img :src="myKeepData.img" class="card-img-top" alt="..." />
-    <div class="card-body py-1 text-wrap text-break">
-      <span>
-        <i class="fa fa-eye m-3">
-          <b class="ml-2">{{myKeepData.views}}</b>
-        </i>
-        <i class="fa fa-share m-3">
-          <b class="ml-2">{{myKeepData.shares}}</b>
-        </i>
-        <i class="fa fa-inbox m-3">
-          <b class="ml-2">{{myKeepData.keeps}}</b>
-        </i>
-      </span>
-      <h4 class="card-title">{{myKeepData.name}}</h4>
-      <p class="card-text">{{myKeepData.description}}</p>
-      <button
-        type="button"
-        class="btn btn-outline-primary btn-block py-1 mb-2"
-        @click="keepDetails(myKeepData.id)"
-      >See Pin Details...</button>
+  <div class="myKeepsComponent row justify-content-center">
+    <div class="card col-8 m-3 px-0 shadow-lg text-center bg-primary text-light">
+      <div class="card-body py-1 text-wrap text-break">
+        <span>
+          <i class="fa fa-eye m-3">
+            <b class="ml-2">{{myKeepData.views}}</b>
+          </i>
+          <i class="fa fa-share m-3">
+            <b class="ml-2">{{myKeepData.shares}}</b>
+          </i>
+          <i class="fa fa-inbox m-3">
+            <b class="ml-2">{{myKeepData.keeps}}</b>
+          </i>
+        </span>
+        <h4 class="card-title">{{myKeepData.name}}</h4>
+        <p class="card-text">{{myKeepData.description}}</p>
+        <button
+          type="button"
+          class="btn btn-outline-light btn-block py-1 mb-2"
+          @click="keepDetails(myKeepData.id)"
+        >See Pin Details...</button>
+      </div>
     </div>
   </div>
 </template>

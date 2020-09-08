@@ -1,5 +1,7 @@
 <template>
-  <div class="card keepsComponent col-12 col-md-2 m-3 px-0 shadow-lg text-center">
+  <div
+    class="card keepsComponent col-12 col-md-2 m-3 px-0 shadow-lg bg-primary text-light text-center"
+  >
     <img :src="keepData.img" class="card-img-top" alt="..." />
     <div class="card-body py-1 text-wrap text-break">
       <span>
@@ -17,7 +19,7 @@
       <p class="card-text">{{keepData.description}}</p>
       <button
         type="button"
-        class="btn btn-outline-primary btn-block py-1 mb-2"
+        class="btn btn-outline-light btn-block py-1 mb-2"
         @click="keepDetails(keepData.id)"
       >See Pin Details...</button>
     </div>

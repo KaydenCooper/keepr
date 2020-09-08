@@ -51,12 +51,10 @@ namespace Keepr.Services
         public Keep Edit(Keep updatedKeep)
         {
             Keep foundKeep = GetById(updatedKeep.Id);
-            bool edited = _repo.Edit(updatedKeep);
-            if (!edited)
-            {
-                throw new Exception("You No Own This!");
-            }
-            return updatedKeep;
+            foundKeep.Name = updatedKeep.Name == null ? foundKeep.Name : updatedKeep.Name;
+            foundKeep.Description = updatedKeep.Description == null ? foundKeep.Description : updatedKeep.Description;
+            foundKeep.Img = updatedKeep.Img == null ? foundKeep.Img : updatedKeep.Img;
+            return _repo.Edit(foundKeep);
         }
     }
 }

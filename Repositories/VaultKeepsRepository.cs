@@ -15,13 +15,7 @@ namespace Keepr.Repositories
             _db = db;
         }
 
-        public VaultKeep GetById(int id)
-        {
-            string sql = @"
-        SELECT * FROM vaultkeeps WHERE id = @Id;";
-            return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
 
-        }
         public int Create(VaultKeep newVaultKeeps)
         {
             string sql = @"INSERT INTO vaultkeeps
@@ -32,6 +26,7 @@ namespace Keepr.Repositories
             return _db.ExecuteScalar<int>(sql, newVaultKeeps);
 
         }
+
 
         public IEnumerable<VaultKeepViewModel> GetKeepsByVaultId(int vaultId, string userId)
         {
@@ -46,6 +41,13 @@ namespace Keepr.Repositories
 
         }
 
+        public VaultKeep GetById(int id)
+        {
+            string sql = @"
+        SELECT * FROM vaultkeeps WHERE id = @Id;";
+            return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
+
+        }
 
         public void Delete(int id)
         {

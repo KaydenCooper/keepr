@@ -23,10 +23,16 @@ namespace Keepr.Controllers
 
 
         [HttpPost]
-        public ActionResult<VaultKeep> Post([FromBody] VaultKeep newVaultKeep)
+        public ActionResult<VaultKeep> Create([FromBody] VaultKeep newVaultKeep)
         {
             try
             {
+                var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (user == null)
+                {
+                    throw new Exception("Please Login to Continue!");
+                }
+                newVaultKeep.UserId = user.Value;
                 return Ok(_vk.Create(newVaultKeep));
             }
             catch (Exception e)
@@ -35,9 +41,26 @@ namespace Keepr.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult<IEnumerable<VaultKeepViewModel>> Get(int id)
+        {
+            try
+            {
+                var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (user == null)
+                {
+                    throw new Exception("Please Login to Continue!");
+                }
+                return Ok(_vk.Get(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpDelete("{id}")]
-        public ActionResult<string> Delete(int id)
+        public ActionResult<VaultKeep> Delete(int id)
         {
             try
             {

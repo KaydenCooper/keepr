@@ -35,27 +35,8 @@ namespace Keepr.Controllers
             };
         }
 
-        [HttpGet("{id}")]
         [Authorize]
-        public ActionResult<Vault> GetById(int id)
-        {
-            try
-            {
-                var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-                if (user == null)
-                {
-                    throw new Exception("Please Login to Continue!");
-                }
-                return Ok(_vs.GetById(id));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            };
-        }
-
         [HttpGet("user")]
-        [Authorize]
         public ActionResult<IEnumerable<Vault>> GetMyVaults()
         {
             try
@@ -73,8 +54,27 @@ namespace Keepr.Controllers
             };
         }
 
-        [HttpGet("{vaultId}" + "/keeps")]
-        public ActionResult<IEnumerable<VaultKeepViewModel>> GetKeepsByVaultId(int vaultId, string userId)
+        [Authorize]
+        [HttpGet("{id}")]
+        public ActionResult<Vault> GetById(int id)
+        {
+            try
+            {
+                var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (user == null)
+                {
+                    throw new Exception("Please Login to Continue!");
+                }
+                return Ok(_vs.GetById(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            };
+        }
+
+        [HttpGet("{id}/keeps")]
+        public ActionResult<VaultKeepViewModel> GetKeepsByVaultId(int vaultId, string userId)
         {
             try
             {
@@ -93,8 +93,8 @@ namespace Keepr.Controllers
             };
         }
 
-        [HttpPost]
         [Authorize]
+        [HttpPost]
         public ActionResult<Vault> Post([FromBody] Vault newVault)
         {
             try
@@ -113,10 +113,10 @@ namespace Keepr.Controllers
             }
         }
 
-        [HttpPut("{id}")]
         [Authorize]
+        [HttpPut("{id}")]
 
-        public ActionResult<Vault> Edit(int id, [FromBody] Vault updatedVault)
+        public ActionResult<Vault> Edit([FromBody] Vault updatedVault, int id)
         {
             try
             {
@@ -137,9 +137,9 @@ namespace Keepr.Controllers
         }
 
 
-        [HttpDelete("{id}")]
         [Authorize]
-        public ActionResult<string> Delete(int id)
+        [HttpDelete("{id}")]
+        public ActionResult<Vault> Delete(int id)
         {
             try
             {

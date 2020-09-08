@@ -33,21 +33,8 @@ namespace Keepr.Controllers
             };
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<Keep> GetById(int id)
-        {
-            try
-            {
-                return Ok(_ks.GetById(id));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            };
-        }
-
-        [HttpGet("user")]
         [Authorize]
+        [HttpGet("user")]
         public ActionResult<IEnumerable<Keep>> GetMyKeeps()
         {
             try
@@ -65,8 +52,23 @@ namespace Keepr.Controllers
             };
         }
 
+        [HttpGet("{id}")]
+        public ActionResult<Keep> GetById(int id)
+        {
+            try
+            {
+                return Ok(_ks.GetById(id));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            };
+        }
+
+
+
+
         [HttpPost]
-        [Authorize]
         public ActionResult<Keep> Post([FromBody] Keep newKeep)
         {
             try
@@ -85,8 +87,8 @@ namespace Keepr.Controllers
             }
         }
 
+
         [HttpPut("{id}")]
-        [Authorize]
 
         public ActionResult<Keep> Edit(int id, [FromBody] Keep updatedKeep)
         {
@@ -110,7 +112,6 @@ namespace Keepr.Controllers
 
 
         [HttpDelete("{id}")]
-        [Authorize]
         public ActionResult<string> Delete(int id)
         {
             try

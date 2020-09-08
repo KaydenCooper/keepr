@@ -22,8 +22,8 @@ namespace Keepr.Repositories
         }
         public IEnumerable<Vault> Get(string userId)
         {
-            string sql = "SELECT * FROM vaults;";
-            return _db.Query<Vault>(sql);
+            string sql = "SELECT * FROM vaults WHERE userId = @UserId;";
+            return _db.Query<Vault>(sql, new { userId });
         }
 
         public Vault GetById(int id)
@@ -33,15 +33,15 @@ namespace Keepr.Repositories
             return _db.QueryFirstOrDefault<Vault>(sql, new { id });
 
         }
-        public Vault Create(Vault newVault)
+        public int Create(Vault newVault)
         {
             string sql = @"INSERT INTO vaults
             (userId, name, description)
             VALUES
             (@userId, @name, @description);
             SELECT LAST_INSERT_ID();";
-            newVault.Id = _db.ExecuteScalar<int>(sql, newVault);
-            return newVault;
+            return _db.ExecuteScalar<int>(sql, newVault);
+
         }
 
 
@@ -53,7 +53,7 @@ namespace Keepr.Repositories
             return rowsAffected == 1;
         }
 
-        internal bool Edit(Vault updatedVault)
+        public bool Edit(Vault updatedVault)
         {
             string sql = @"
             UPDATE vaults

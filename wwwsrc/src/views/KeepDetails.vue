@@ -16,11 +16,39 @@
         </i>
       </span>
       <div v-if="activeKeep.isPrivate == false">
-        <button class="btn btn-outline-info btn-block mx-1">Save Post</button>
+        <div class="dropdown">
+          <button
+            class="btn btn-outline-info btn-block dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Save Post</button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">
+              <h4>{{vaults}}</h4>
+            </a>
+          </div>
+        </div>
       </div>
       <div v-else>
-        <button class="btn btn-outline-info mx-1">Save Post</button>
-        <button class="btn btn-outline-danger mx-1">Remove Post</button>
+        <div class="dropdown">
+          <button
+            class="btn btn-outline-info btn-block dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >Save Post</button>
+          <div class="dropdown-menu text-primary" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </div>
+        <button class="btn btn-outline-danger" @click="deletePost(activeKeep.id)">Remove Post</button>
       </div>
     </div>
   </div>
@@ -40,8 +68,15 @@ export default {
     activeKeep() {
       return this.$store.state.activeKeep;
     },
+    vaults() {
+      return this.$store.state.vaults;
+    },
   },
-  methods: {},
+  methods: {
+    deletePost(id) {
+      this.$store.dispatch("deletePost", this.activeKeep.id);
+    },
+  },
   components: {},
 };
 </script>

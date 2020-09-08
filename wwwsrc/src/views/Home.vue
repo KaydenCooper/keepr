@@ -1,8 +1,8 @@
 <template>
-  <div class="home row justify-content-center py-2">
-    <div class="col-12 text-center">
+  <div class="home row justify-content-center py-2 container-fluid">
+    <div class="col-12 text-center mt-4">
       <h1>
-        <u>Welcome To Keepr</u>
+        <u class="text-shadow">Welcome To Keepr</u>
       </h1>
     </div>
     <keeps class="row" v-for="keep in publicKeeps" :keepData="keep" :key="keep.id" />
@@ -35,3 +35,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.text-shadow {
+  text-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.616) !important;
+}
+</style>

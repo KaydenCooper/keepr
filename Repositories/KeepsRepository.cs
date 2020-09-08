@@ -17,13 +17,13 @@ namespace Keepr.Repositories
 
         public IEnumerable<Keep> Get()
         {
-            string sql = "SELECT * FROM Keeps WHERE IsPrivate = 0;";
+            string sql = "SELECT * FROM keeps WHERE IsPrivate = 0;";
             return _db.Query<Keep>(sql);
         }
         public IEnumerable<Keep> Get(string userId)
         {
-            string sql = "SELECT * FROM Keeps WHERE IsPrivate = 0;";
-            return _db.Query<Keep>(sql);
+            string sql = "SELECT * FROM keeps WHERE userId = @UserId;";
+            return _db.Query<Keep>(sql, new { userId });
         }
 
         public Keep GetById(int id)
@@ -48,12 +48,12 @@ namespace Keepr.Repositories
         public bool Delete(string userId, int id)
         {
             string sql = @"
-            DELETE FROM keeps WHERE id = @Id AND userId = @userId AND IsPrivate = 1 LIMIT 1;";
+            DELETE FROM keeps WHERE id = @Id AND userId = @userId LIMIT 1;";
             int rowsAffected = _db.Execute(sql, new { userId, id });
             return rowsAffected == 1;
         }
 
-        internal bool Edit(Keep updatedKeep)
+        public Keep Edit(Keep foundKeep)
         {
             string sql = @"
             UPDATE keeps
@@ -61,9 +61,8 @@ namespace Keepr.Repositories
            name = @name, 
             description = @description, 
             img = @img
-            WHERE id = @id AND userId = @userId LIMIT 1;";
-            int rowsAffected = _db.Execute(sql, updatedKeep);
-            return rowsAffected == 1;
+            WHERE id = @id AND userId = @userId;";
+            return _db.QueryFirstOrDefault<Keep>(sql, foundKeep);
         }
     }
 }
