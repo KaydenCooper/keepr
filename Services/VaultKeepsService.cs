@@ -36,11 +36,15 @@ namespace Keepr.Services
             return exists;
         }
 
-        public VaultKeep Delete(int id, string userId)
+        public string Delete(int id, string userId)
         {
 
-            _repo.Delete(id);
-            return exists;
+            bool deleted = _repo.Delete(id, userId);
+            if (!deleted)
+            {
+                throw new Exception("Sorry You No Own This!");
+            }
+            return "Deleted!";
         }
     }
 }

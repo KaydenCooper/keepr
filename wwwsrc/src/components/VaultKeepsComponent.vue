@@ -25,7 +25,7 @@
       <button
         type="button"
         class="btn btn-outline-danger btn-block py-0 mb-2"
-        @click="removePost(vaultKeepData.id)"
+        @click="removePost(vaultKeepData.vaultKeepId)"
       >Remove Post</button>
     </div>
   </div>
@@ -45,7 +45,7 @@ export default {
       this.$router.push({ name: "keepDetails", params: { id: id } });
     },
     removePost(id) {
-      this.$store.dispatch("removeVaultKeep", this.vaultKeepData.id);
+      this.$store.dispatch("removeVaultKeep", id);
     },
   },
   components: {},

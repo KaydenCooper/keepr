@@ -136,7 +136,7 @@ export default new Vuex.Store({
       try {
         let res = await api.delete("vaultkeeps/" + id)
         console.log(res.data);
-        dispatch("getVaultKeep")
+        dispatch("getVaultKeep", id)
       } catch (error) {
         console.log(error);
       }

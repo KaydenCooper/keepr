@@ -54,14 +54,15 @@ namespace Keepr.Repositories
 
         }
 
-        public void Delete(int id)
+        public bool Delete(int id, string userId)
         {
             string sql = @"
             UPDATE keeps 
             SET keeps = keeps - 1
-            WHERE id = @keepId;
-            DELETE FROM vaultkeeps WHERE id = @Id;";
-            _db.Execute(sql, new { id });
+            WHERE id = @Id;
+            DELETE FROM vaultkeeps WHERE id = @Id AND userId = @UserId;";
+            int rowsAffected = _db.Execute(sql, new { id, userId });
+            return rowsAffected == 1;
         }
 
 
