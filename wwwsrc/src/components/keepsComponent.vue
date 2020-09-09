@@ -2,8 +2,10 @@
   <div
     class="card keepsComponent col-12 col-md-2 m-3 px-0 shadow-lg bg-primary text-light text-center"
   >
-    <img :src="keepData.img" class="card-img-top" alt="..." />
-    <div class="card-body py-1 text-wrap text-break">
+    <div class="embed-responsive embed-responsive-4by3">
+      <img :src="keepData.img" class="card-img-top img-fluid embed-responsive-item" alt="..." />
+    </div>
+    <div class="card-body pt-1 pb-3 text-wrap text-break">
       <span>
         <i class="fa fa-eye m-3">
           <b class="ml-2">{{keepData.views}}</b>

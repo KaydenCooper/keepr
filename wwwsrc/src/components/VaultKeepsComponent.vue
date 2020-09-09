@@ -33,6 +33,7 @@
 
 
 <script>
+import Swal from "../components/SwalService.js";
 export default {
   name: "vaultKeepsComponent",
   props: ["vaultKeepData"],
@@ -46,6 +47,7 @@ export default {
     },
     removePost(id) {
       this.$store.dispatch("removeVaultKeep", id);
+      // Swal.toast("Removed!", "");
     },
   },
   components: {},

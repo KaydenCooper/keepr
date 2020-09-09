@@ -17,6 +17,7 @@
 
 
 <script>
+import Swal from "../components/SwalService.js";
 export default {
   name: "vaultsComponent",
   props: ["vaultData"],
@@ -30,6 +31,7 @@ export default {
   methods: {
     deleteBoard(id) {
       this.$store.dispatch("deleteBoard", this.vaultData.id);
+      Swal.toast("Deleted!", "");
     },
   },
   components: {},

@@ -1,9 +1,9 @@
 <template>
   <div class="keepDetails row justify-content-center text-dark container-fluid">
-    <div class="col-4 card p-4 shadow-lg text-center my-3">
-      <img :src="activeKeep.img" alt />
-      <h3 class="my-2">{{activeKeep.name}}</h3>
-      <p class="my-2">{{activeKeep.description}}</p>
+    <div class="col-4 card text-light bg-primary p-4 shadow-lg text-center my-3">
+      <img class="img-fluid rounded" :src="activeKeep.img" alt />
+      <h1 class="my-2 text-light">{{activeKeep.name}}</h1>
+      <h3 class="my-2 text-light">{{activeKeep.description}}</h3>
       <span>
         <i class="fa fa-eye m-3">
           <b class="ml-2">{{activeKeep.views}}</b>
@@ -65,6 +65,7 @@
 
 
 <script>
+import Swal from "../components/SwalService.js";
 export default {
   name: "keepDetails",
   mounted() {
@@ -85,6 +86,7 @@ export default {
   methods: {
     deletePost(id) {
       this.$store.dispatch("deletePost", this.activeKeep.id);
+      Swal.toast("Deleted!", "");
     },
 
     saveToBoard(id) {
@@ -92,6 +94,7 @@ export default {
         vaultId: id,
         keepId: this.activeKeep.id,
       });
+      Swal.toast("Saved!", "");
     },
   },
   components: {},

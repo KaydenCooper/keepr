@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import Axios from "axios";
 import router from "../router";
+import Swal from "../components/SwalService.js"
 
 Vue.use(Vuex);
 
@@ -137,6 +138,7 @@ export default new Vuex.Store({
         let res = await api.delete("vaultkeeps/" + id)
         console.log(res.data);
         dispatch("getVaultKeep", id)
+        Swal.toast("Removed!", "");
       } catch (error) {
         console.log(error);
       }

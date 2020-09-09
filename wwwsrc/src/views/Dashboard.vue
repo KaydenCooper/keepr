@@ -105,6 +105,7 @@
 <script>
 import MyKeepsComponent from "../components/MyKeepsComponent";
 import VaultsComponent from "../components/VaultsComponent";
+import Swal from "../components/SwalService.js";
 export default {
   data() {
     return {
@@ -130,10 +131,12 @@ export default {
     newBoard() {
       this.$store.dispatch("newBoard", this.createBoard);
       this.createBoard = {};
+      Swal.toast("Success!", "");
     },
     newPost() {
       this.$store.dispatch("newPost", this.createPost);
       this.createPost = {};
+      Swal.toast("Success!", "");
     },
   },
   components: {
