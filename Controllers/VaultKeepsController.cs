@@ -41,7 +41,7 @@ namespace Keepr.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public ActionResult<IEnumerable<VaultKeepViewModel>> Get(int id)
         {
             try
@@ -51,7 +51,7 @@ namespace Keepr.Controllers
                 {
                     throw new Exception("Please Login to Continue!");
                 }
-                return Ok(_vk.Get(id));
+                return Ok(_vk.Get(id, user.Value));
             }
             catch (Exception e)
             {
@@ -64,7 +64,12 @@ namespace Keepr.Controllers
         {
             try
             {
-                return Ok(_vk.Delete(id));
+                var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (user == null)
+                {
+                    throw new Exception("Please Login to Continue!");
+                }
+                return Ok(_vk.Delete(id, user.Value));
             }
             catch (System.Exception e)
             {

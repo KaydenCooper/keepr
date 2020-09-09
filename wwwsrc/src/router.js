@@ -29,7 +29,7 @@ export default new Router({
       path: "/keepDetails/:id",
       name: "keepDetails",
       component: KeepDetails,
-
+      beforeEnter: authGuard
     },
     {
       path: "/vaults/:vaultId",

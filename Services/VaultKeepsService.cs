@@ -17,19 +17,18 @@ namespace Keepr.Services
         }
         public VaultKeep Create(VaultKeep newVaultKeep)
         {
-            int id = _repo.Create(newVaultKeep);
-            newVaultKeep.Id = id;
-            return newVaultKeep;
+            return _repo.Create(newVaultKeep);
+
         }
-        public IEnumerable<VaultKeepViewModel> GetKeepsByVaultId(int vaultId, string userId)
+        public IEnumerable<VaultKeepViewModel> GetKeepsByVaultId(int id, string userId)
         {
-            return _repo.GetKeepsByVaultId(vaultId, userId);
+            return _repo.GetKeepsByVaultId(id, userId);
         }
 
 
-        public VaultKeep Get(int id)
+        public VaultKeep Get(int id, string userId)
         {
-            VaultKeep exists = _repo.GetById(id);
+            VaultKeep exists = _repo.GetById(id, userId);
             if (exists == null)
             {
                 throw new Exception("Wrong Keep Bud!");
@@ -37,9 +36,9 @@ namespace Keepr.Services
             return exists;
         }
 
-        public VaultKeep Delete(int id)
+        public VaultKeep Delete(int id, string userId)
         {
-            VaultKeep exists = Get(id);
+
             _repo.Delete(id);
             return exists;
         }

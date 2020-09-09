@@ -39,9 +39,12 @@
               />
             </div>
             <div class="form-group form-check">
-              <label class="form-check-label text-light" for="exampleCheck1">Want To Make It Public?</label>
+              <label
+                class="form-check-label text-light"
+                for="exampleCheck1"
+              >Want To Make It Private?</label>
               <br />
-              <input type="checkbox" class="form-check-input" />
+              <input v-model="createPost.isPrivate" type="checkbox" class="form-check-input" />
             </div>
             <button class="btn btn-primary btn-block border border-secondary shadow-lg mt-4">
               <h5 class="text-light mb-0">Create A Post</h5>
@@ -129,9 +132,7 @@ export default {
       this.createBoard = {};
     },
     newPost() {
-      debugger;
       this.$store.dispatch("newPost", this.createPost);
-      this.user.isPrivate = true;
       this.createPost = {};
     },
   },

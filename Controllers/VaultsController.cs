@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Keepr.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class VaultsController : ControllerBase
@@ -22,21 +23,26 @@ namespace Keepr.Controllers
             _vs = vs;
             _vk = vk;
         }
-        [HttpGet]
-        public ActionResult<IEnumerable<Vault>> Get()
-        {
-            try
-            {
-                return Ok(_vs.Get());
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            };
-        }
 
-        [Authorize]
-        [HttpGet("user")]
+        // [HttpGet]
+        // public ActionResult<IEnumerable<Vault>> Get()
+        // {
+        //     try
+        //     {
+        //         var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+        //         if (user == null)
+        //         {
+        //             throw new Exception("Please Login to Continue!");
+        //         }
+        //         return Ok(_vs.Get());
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         return BadRequest(e.Message);
+        //     };
+        // }
+
+        [HttpGet]
         public ActionResult<IEnumerable<Vault>> GetMyVaults()
         {
             try
@@ -54,7 +60,6 @@ namespace Keepr.Controllers
             };
         }
 
-        [Authorize]
         [HttpGet("{id}")]
         public ActionResult<Vault> GetById(int id)
         {
@@ -65,7 +70,7 @@ namespace Keepr.Controllers
                 {
                     throw new Exception("Please Login to Continue!");
                 }
-                return Ok(_vs.GetById(id));
+                return Ok(_vs.GetById(id, user.Value));
             }
             catch (Exception e)
             {
@@ -74,7 +79,7 @@ namespace Keepr.Controllers
         }
 
         [HttpGet("{id}/keeps")]
-        public ActionResult<VaultKeepViewModel> GetKeepsByVaultId(int vaultId, string userId)
+        public ActionResult<VaultKeepViewModel> GetKeepsByVaultId(int id)
         {
             try
             {
@@ -84,7 +89,7 @@ namespace Keepr.Controllers
                 {
                     throw new Exception("Please Login to Continue!");
                 }
-                return Ok(_vk.GetKeepsByVaultId(vaultId, getUser));
+                return Ok(_vk.GetKeepsByVaultId(id, getUser));
             }
             catch (System.Exception e)
             {
@@ -93,7 +98,7 @@ namespace Keepr.Controllers
             };
         }
 
-        [Authorize]
+
         [HttpPost]
         public ActionResult<Vault> Post([FromBody] Vault newVault)
         {
@@ -113,21 +118,20 @@ namespace Keepr.Controllers
             }
         }
 
-        [Authorize]
         [HttpPut("{id}")]
 
         public ActionResult<Vault> Edit([FromBody] Vault updatedVault, int id)
         {
             try
             {
-                var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-                if (userId == null)
+                var user = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                if (user == null)
                 {
                     throw new Exception("Please Login to Continue!");
                 }
-                updatedVault.UserId = userId.Value;
+                updatedVault.UserId = user.Value;
                 updatedVault.Id = id;
-                return Ok(_vs.Edit(updatedVault));
+                return Ok(_vs.Edit(updatedVault, user.Value));
             }
             catch (System.Exception e)
             {
@@ -137,7 +141,6 @@ namespace Keepr.Controllers
         }
 
 
-        [Authorize]
         [HttpDelete("{id}")]
         public ActionResult<Vault> Delete(int id)
         {

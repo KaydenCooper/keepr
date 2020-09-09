@@ -20,6 +20,7 @@ namespace Keepr.Controllers
         {
             _ks = ks;
         }
+
         [HttpGet]
         public ActionResult<IEnumerable<Keep>> Get()
         {
@@ -67,7 +68,7 @@ namespace Keepr.Controllers
 
 
 
-
+        [Authorize]
         [HttpPost]
         public ActionResult<Keep> Post([FromBody] Keep newKeep)
         {
@@ -88,6 +89,7 @@ namespace Keepr.Controllers
         }
 
 
+        [Authorize]
         [HttpPut("{id}")]
 
         public ActionResult<Keep> Edit(int id, [FromBody] Keep updatedKeep)
@@ -110,7 +112,7 @@ namespace Keepr.Controllers
             }
         }
 
-
+        [Authorize]
         [HttpDelete("{id}")]
         public ActionResult<string> Delete(int id)
         {

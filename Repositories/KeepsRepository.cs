@@ -29,7 +29,10 @@ namespace Keepr.Repositories
         public Keep GetById(int id)
         {
             string sql = @"
-        SELECT * FROM keeps WHERE id = @Id AND IsPrivate = 0;";
+            UPDATE keeps
+            SET views = views + 1
+            WHERE id = @Id;
+        SELECT * FROM keeps WHERE id = @Id;";
             return _db.QueryFirstOrDefault<Keep>(sql, new { id });
 
         }
@@ -53,7 +56,7 @@ namespace Keepr.Repositories
             return rowsAffected == 1;
         }
 
-        public Keep Edit(Keep foundKeep)
+        public bool Edit(Keep foundKeep)
         {
             string sql = @"
             UPDATE keeps
@@ -61,8 +64,9 @@ namespace Keepr.Repositories
            name = @name, 
             description = @description, 
             img = @img
-            WHERE id = @id AND userId = @userId;";
-            return _db.QueryFirstOrDefault<Keep>(sql, foundKeep);
+            WHERE id = @id AND userId = @UserId LIMIT 1;";
+            int rowsAffected = _db.Execute(sql, foundKeep);
+            return rowsAffected == 1;
         }
     }
 }

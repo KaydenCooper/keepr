@@ -1,29 +1,35 @@
 <template>
-  <div class="vault row justify-content-center">
-    <div class="card bg-primary col-10 height text-center shadow-lg mt-4">
+  <div class="vault row justify-content-center container-fluid">
+    <div class="card bg-primary col-11 text-center shadow-lg mt-4">
       <h1 class="mt-4 text-shadow text-light">{{vault[0] ? vault[0].name: ''}}</h1>
-      <!-- <savedPosts v-for="keeps in savedKeeps" :savedKeepData="keeps" :key="keeps.id" /> -->
     </div>
+    <vaultKeep class="row" v-for="keep in vaultkeep" :vaultKeepData="keep" :key="keep.id" />
   </div>
 </template>
 
 
 <script>
+import vaultKeep from "../components/VaultKeepsComponent";
 export default {
   name: "vault",
   mounted() {
-    this.$store.dispatch("getVaults");
+    this.$store.dispatch("getVaultKeep", this.$route.params.vaultId);
   },
   data() {
     return {};
   },
   computed: {
+    vaultkeep() {
+      return this.$store.state.vaultKeeps;
+    },
     vault() {
       return this.$store.state.vaults;
     },
   },
   methods: {},
-  components: {},
+  components: {
+    vaultKeep,
+  },
 };
 </script>
 

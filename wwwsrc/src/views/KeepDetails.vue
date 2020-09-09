@@ -22,13 +22,16 @@
             type="button"
             id="dropdownMenuButton"
             data-toggle="dropdown"
+            data-display="static"
             aria-haspopup="true"
             aria-expanded="false"
           >Save Post</button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">
-              <h4>{{vaults}}</h4>
-            </a>
+          <div class="dropdown-menu position p-3 shadow-lg" aria-labelledby="dropdownMenuButton">
+            <div v-for="vault in vaults" :key="vault.id">
+              <a class="dropdown-item" @click="saveToBoard(vault.id)">
+                <h4>{{vault.name}}</h4>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -39,16 +42,22 @@
             type="button"
             id="dropdownMenuButton"
             data-toggle="dropdown"
+            data-display="static"
             aria-haspopup="true"
             aria-expanded="false"
           >Save Post</button>
-          <div class="dropdown-menu text-primary" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+          <div class="dropdown-menu position p-3 shadow-lg" aria-labelledby="dropdownMenuButton">
+            <div v-for="vault in vaults" :key="vault.id">
+              <a class="dropdown-item" @click="saveToBoard(vault.id)">
+                <h4>{{vault.name}}</h4>
+              </a>
+            </div>
           </div>
         </div>
-        <button class="btn btn-outline-danger" @click="deletePost(activeKeep.id)">Remove Post</button>
+        <button
+          class="btn btn-outline-danger btn-block mt-2"
+          @click="deletePost(activeKeep.id)"
+        >Remove Post</button>
       </div>
     </div>
   </div>
@@ -60,6 +69,7 @@ export default {
   name: "keepDetails",
   mounted() {
     this.$store.dispatch("getActiveKeep", this.$route.params.id);
+    this.$store.dispatch("getVaults", this.$route.params.id);
   },
   data() {
     return {};
@@ -76,6 +86,13 @@ export default {
     deletePost(id) {
       this.$store.dispatch("deletePost", this.activeKeep.id);
     },
+
+    saveToBoard(id) {
+      this.$store.dispatch("addToBoard", {
+        vaultId: id,
+        keepId: this.activeKeep.id,
+      });
+    },
   },
   components: {},
 };
@@ -85,5 +102,14 @@ export default {
 <style scoped>
 .shadow-lg {
   box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.616) !important;
+}
+
+.position:active,
+.position {
+  position: absolute;
+  will-change: transform;
+  top: 290px;
+  left: 100px;
+  transform: translate3d(0px, -237px, 0px);
 }
 </style>

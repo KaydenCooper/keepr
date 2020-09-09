@@ -37,7 +37,6 @@ export default {
   computed: {},
   methods: {
     keepDetails(id) {
-      this.keepData.views++;
       this.$router.push({ name: "keepDetails", params: { id: id } });
     },
   },

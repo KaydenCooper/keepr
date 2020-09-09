@@ -16,14 +16,19 @@ namespace Keepr.Repositories
         }
 
 
-        public int Create(VaultKeep newVaultKeeps)
+        public VaultKeep Create(VaultKeep newVaultKeeps)
         {
-            string sql = @"INSERT INTO vaultkeeps
+            string sql = @"
+            UPDATE keeps
+            SET keeps = keeps + 1
+            WHERE id = @keepId;
+            INSERT INTO vaultkeeps
             (vaultId, keepId, userId)
             VALUES
             (@vaultId, @keepId, @userId);
             SELECT LAST_INSERT_ID();";
-            return _db.ExecuteScalar<int>(sql, newVaultKeeps);
+            newVaultKeeps.Id = _db.ExecuteScalar<int>(sql, newVaultKeeps);
+            return newVaultKeeps;
 
         }
 
@@ -41,17 +46,20 @@ namespace Keepr.Repositories
 
         }
 
-        public VaultKeep GetById(int id)
+        public VaultKeep GetById(int id, string userId)
         {
             string sql = @"
-        SELECT * FROM vaultkeeps WHERE id = @Id;";
-            return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id });
+        SELECT * FROM vaultkeeps WHERE id = @Id AND userId = @UserId;";
+            return _db.QueryFirstOrDefault<VaultKeep>(sql, new { id, userId });
 
         }
 
         public void Delete(int id)
         {
             string sql = @"
+            UPDATE keeps 
+            SET keeps = keeps - 1
+            WHERE id = @keepId;
             DELETE FROM vaultkeeps WHERE id = @Id;";
             _db.Execute(sql, new { id });
         }
